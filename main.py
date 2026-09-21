@@ -1,6 +1,7 @@
 import os, argparse
 from dotenv import load_dotenv
 from openai import OpenAI
+from prompts import system_prompt
 
 load_dotenv()
 api_key = os.environ.get("OPENROUTER_API_KEY")
@@ -15,13 +16,16 @@ args = parser.parse_args()
 
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key=api_key)
+    api_key=api_key,
+    )
 messages = [
+    {"role": "system", "content": system_prompt},
     {"role": "user", "content": args.user_prompt},
 ]
 response = client.chat.completions.create(
     model="openrouter/free",
-    messages=messages,)
+    messages=messages,
+    temperature=0)
 
 # Prompt tokens: X
 # Response tokens: Y
