@@ -15,15 +15,12 @@ args = parser.parse_args()
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
     api_key=api_key)
-
+messages = [
+    {"role": "user", "content": args.user_prompt},
+]
 response = client.chat.completions.create(
     model="openrouter/free",
-    messages=[
-        {
-            "role": "user",
-            "content": args.user_prompt
-        }
-    ])
+    messages=messages,)
 
 # Prompt tokens: X
 # Response tokens: Y
